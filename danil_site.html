@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danil — Motion Designer | UI Animation, Reels &amp; SaaS</title>
+<meta name="description" content="Motion designer specializing in UI animation, micro-interactions and short-form video for SaaS and product teams.">
+<meta name="theme-color" content="#0a0a0a">
+
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --bg-deep:#050505;
+    --violet-600:#7c3aed;
+    --violet-400:#a855f7;
+    --violet-200:#c4b5fd;
+    --white-100:rgba(255,255,255,1);
+    --white-70:rgba(255,255,255,.70);
+    --white-45:rgba(255,255,255,.45);
+    --white-25:rgba(255,255,255,.25);
+    --white-10:rgba(255,255,255,.10);
+    --white-05:rgba(255,255,255,.05);
+    --glass-bg:rgba(255,255,255,.05);
+    --glass-bg-hover:rgba(255,255,255,.08);
+    --glass-border:rgba(255,255,255,.10);
+    --ease:cubic-bezier(.25,.46,.45,.94);
+    --r-lg:20px;
+    --r-md:16px;
+    --r-sm:10px;
+    --maxw:1140px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;background:var(--bg);}
+  body{
+    background:var(--bg);
+    color:var(--white-100);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img,svg,video{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;}
+
+  a:focus-visible,button:focus-visible,.thumb:focus-visible{
+    outline:2px solid var(--violet-400);
+    outline-offset:3px;
+    border-radius:6px;
+  }
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.5rem;}
+  .eyebrow{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.72rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--violet-200);
+    display:inline-block;
+    margin-bottom:.9rem;
+  }
+
+  /* ---------- ambient cursor glow ---------- */
+  #cursor-glow{
+    position:fixed;
+    top:0;left:0;
+    width:420px;height:420px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(124,58,237,.22), transparent 70%);
+    filter:blur(30px);
+    transform:translate(-9999px,-9999px);
+    pointer-events:none;
+    z-index:1;
+    will-change:transform;
+  }
+
+  /* ---------- nav ---------- */
+  header.nav{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:50;
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    background:rgba(10,10,10,.55);
+    border-bottom:1px solid var(--white-05);
+  }
+  .nav-inner{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 1.5rem;
+    height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{font-weight:700;font-size:1rem;letter-spacing:-.01em;}
+  .logo span{color:var(--violet-400);}
+  .nav-links{display:flex;gap:1.75rem;font-size:.88rem;color:var(--white-70);}
+  .nav-links a{transition:color .25s var(--ease);}
+  .nav-links a:hover{color:var(--white-100);}
+  .nav-socials{display:none;gap:1rem;}
+  @media (min-width:640px){ .nav-socials{display:flex;} }
+  .icon-btn{
+    width:34px;height:34px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:var(--r-sm);
+    color:var(--white-45);
+    transition:color .25s var(--ease), background .25s var(--ease);
+  }
+  .icon-btn:hover{color:var(--violet-200);background:var(--white-05);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:6rem 1.5rem 4rem;
+    overflow:hidden;
+  }
+  .hero-glow{
+    position:absolute;
+    inset:-20%;
+    z-index:0;
+    background:
+      radial-gradient(circle at 20% 25%, rgba(124,58,237,.30), transparent 45%),
+      radial-gradient(circle at 80% 70%, rgba(168,85,247,.22), transparent 45%);
+    filter:blur(60px);
+    animation:driftGlow 22s ease-in-out infinite alternate;
+  }
+  @keyframes driftGlow{
+    0%{transform:translate(0,0) scale(1);}
+    100%{transform:translate(3%,-4%) scale(1.08);}
+  }
+  .hero-content{position:relative;z-index:2;max-width:760px;}
+  .hero h1{
+    font-size:clamp(2rem, 4vw + 1.2rem, 3.5rem);
+    font-weight:700;
+    letter-spacing:-.02em;
+    line-height:1.08;
+    background:linear-gradient(135deg, #ffffff 0%, #ffffff 35%, var(--violet-200) 75%, var(--violet-400) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    opacity:0;
+    transform:translateY(16px) scale(.98);
+    animation:heroIn .9s var(--ease) .15s forwards;
+  }
+  .hero .tagline{
+    margin-top:1.1rem;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.78rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--white-45);
+    opacity:0;
+    animation:heroIn .9s var(--ease) .35s forwards;
+  }
+  .hero p.lede{
+    margin:1.4rem auto 0;
+    max-width:480px;
+    font-size:1.02rem;
+    color:var(--white-70);
+    font-weight:400;
+    opacity:0;
+    animation:heroIn .9s var(--ease) .5s forwards;
+  }
+  .hero .cta{
+    margin-top: 3.5rem; 
+    opacity:0;
+    animation:heroIn .9s var(--ease) .65s forwards;
+  }
+  @keyframes heroIn{
+    to{opacity:1;transform:translateY(0) scale(1);}
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    min-height:44px;
+    padding:.85rem 1.7rem;
+    border-radius:var(--r-md);
+    background:rgba(124,58,237,.16);
+    border:1px solid rgba(124,58,237,.4);
+    font-size:.92rem;
+    font-weight:500;
+    transition:background .3s var(--ease), box-shadow .3s var(--ease), transform .3s var(--ease);
+  }
+  .btn:hover{
+    background:rgba(124,58,237,.28);
+    box-shadow:0 0 30px rgba(124,58,237,.35);
+    transform:translateY(-1px);
+  }
+
+  .scroll-cue{
+    position:absolute;
+    bottom:2.2rem;left:50%;
+    transform:translateX(-50%);
+    z-index:2;
+    color:var(--white-25);
+    animation:bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob{ 0%,100%{transform:translate(-50%,0);} 50%{transform:translate(-50%,8px);} }
+
+  /* ---------- generic section ---------- */
+  section{padding:6rem 0;position:relative;z-index:1;}
+  .section-head{max-width:560px;margin-bottom:3rem;}
+  .section-head h2{
+    font-size:clamp(1.6rem, 2vw + 1.2rem, 2.25rem);
+    font-weight:600;
+    letter-spacing:-.01em;
+  }
+
+  /* ---------- reveal-on-scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(26px);
+    transition:opacity .8s var(--ease), transform .8s var(--ease);
+  }
+  .reveal.is-visible{opacity:1;transform:translateY(0);}
+
+  /* ---------- work grid ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1.5rem;
+  }
+  @media (min-width:1024px){
+    .grid{grid-template-columns:1fr 1fr;gap:1.75rem;}
+  }
+
+  .card{
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    border-radius:var(--r-lg);
+    overflow:hidden;
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    transition:transform .4s var(--ease), box-shadow .4s var(--ease), background .4s var(--ease);
+  }
+  @media (pointer:fine){
+    .card:hover{
+      transform:translateY(-4px);
+      background:var(--glass-bg-hover);
+      box-shadow:0 0 44px rgba(124,58,237,.22);
+    }
+  }
+
+  .thumb{
+    position:relative;
+    aspect-ratio:16/9;
+    cursor:pointer;
+    background:linear-gradient(135deg,#150c22,#0a0a0a);
+    overflow:hidden;
+  }
+  .thumb iframe, .thumb video{width:100%;height:100%;border:0;display:block;object-fit:cover;}
+  .thumb-bg{
+    position:absolute;inset:0;
+    background-size:160% 160%;
+    animation:thumbDrift 14s ease-in-out infinite alternate;
+  }
+  @keyframes thumbDrift{0%{background-position:20% 30%;}100%{background-position:80% 70%;}}
+
+  .card:nth-child(1) .thumb-bg{background-image:radial-gradient(circle at 30% 30%, rgba(168,85,247,.4), transparent 60%);}
+  .card:nth-child(2) .thumb-bg{background-image:radial-gradient(circle at 70% 25%, rgba(196,181,253,.35), transparent 60%);}
+  .card:nth-child(3) .thumb-bg{background-image:radial-gradient(circle at 50% 60%, rgba(124,58,237,.4), transparent 60%);}
+  .card:nth-child(4) .thumb-bg{background-image:radial-gradient(circle at 25% 65%, rgba(168,85,247,.35), transparent 60%);}
+  .card:nth-child(5) .thumb-bg{background-image:radial-gradient(circle at 65% 40%, rgba(196,181,253,.4), transparent 60%);}
+
+  .play-btn{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:56px;height:56px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(10px);
+    border:1px solid var(--white-25);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .3s var(--ease), background .3s var(--ease);
+    z-index:2;
+  }
+  .thumb:hover .play-btn{transform:translate(-50%,-50%) scale(1.08);background:rgba(124,58,237,.3);}
+
+  .thumb-meta{
+    position:absolute;
+    bottom:.85rem;left:.85rem;right:.85rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:2;
+  }
+  .timecode{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.72rem;
+    color:var(--white-70);
+    background:rgba(0,0,0,.4);
+    padding:.2rem .5rem;
+    border-radius:6px;
+  }
+  .tag{
+    font-size:.66rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--violet-200);
+    background:rgba(124,58,237,.22);
+    padding:.25rem .6rem;
+    border-radius:999px;
+  }
+
+  .card-body{padding:1.3rem 1.4rem 1.5rem;}
+  .card-body h3{font-size:1.08rem;font-weight:600;margin-bottom:.45rem;letter-spacing:-.005em;}
+  .card-body p{font-size:.9rem;color:var(--white-45);}
+
+  /* ---------- about ---------- */
+  .about-panel{
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    border-radius:var(--r-lg);
+    padding:2.4rem;
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+  }
+  .about-panel p{color:var(--white-70);font-size:1.02rem;max-width:640px;}
+  .about-panel p + p{margin-top:.9rem;}
+  .chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.6rem;}
+  .chip{
+    font-size:.8rem;
+    padding:.45rem 1rem;
+    border-radius:999px;
+    border:1px solid var(--glass-border);
+    background:rgba(255,255,255,.03);
+    color:var(--white-70);
+  }
+
+  /* ---------- contact ---------- */
+  .contact{text-align:center;}
+  .contact .wrap{max-width:560px;}
+  .contact h2{
+    font-size:clamp(1.8rem, 3vw + 1rem, 2.6rem);
+    font-weight:600;
+    letter-spacing:-.01em;
+    margin-bottom:1rem;
+  }
+  .contact p{color:var(--white-70);margin-bottom:2rem;}
+  .contact-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+  .btn-ghost{
+    display:inline-flex;align-items:center;gap:.5rem;
+    min-height:44px;padding:.85rem 1.5rem;
+    border-radius:var(--r-md);
+    border:1px solid var(--glass-border);
+    background:var(--glass-bg);
+    font-size:.9rem;
+    transition:background .3s var(--ease), border-color .3s var(--ease);
+  }
+  .btn-ghost:hover{background:var(--glass-bg-hover);border-color:var(--white-25);}
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--white-05);
+    padding:2rem 0;
+  }
+  .footer-inner{
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    align-items:center;
+    text-align:center;
+  }
+  @media (min-width:640px){
+    .footer-inner{flex-direction:row;justify-content:space-between;text-align:left;}
+  }
+  .footer-inner p{font-size:.82rem;color:var(--white-25);}
+  .footer-socials{display:flex;gap:.75rem;}
+
+  /* ---------- reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+    #cursor-glow{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor-glow" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top">danil<span>.</span></a>
+    <nav class="nav-links">
+      <a href="#work">Работы</a>
+      <a href="#about">Обо мне</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <div class="nav-socials">
+      <a class="icon-btn" href="mailto:nonlysei@gmail.com" aria-label="Email">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+      <a class="icon-btn" href="https://t.me/danil_motion" target="_blank" rel="noopener" aria-label="Telegram">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M21.5 3.5L2.8 11c-.9.36-.88 1.66.02 1.98l4.4 1.55 1.7 5.5c.27.86 1.36 1.1 1.97.43l2.4-2.65 4.4 3.27c.8.6 1.94.18 2.16-.8l3.2-14.6c.24-1.1-.83-1.97-1.55-1.68zM8.9 14.1l8.6-7.7c.2-.18.46.1.28.3l-7 7.85-.3 3.6-1.6-4.05z" fill="currentColor"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1>Stories in motion.</h1>
+      <p class="tagline">Reels · UI Animation · SaaS</p>
+      <p class="lede">Я создаю высококонверсионные рилсы, виральный моушн-дизайн и динамичный короткий контент для брендов и авторов — кадр за кадром, хук за хуком.</p>
+      <div class="cta">
+        <a class="btn" href="#work">Мои работы ↓</a>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Мои работы</span>
+        <h2>Последние проекты</h2>
+      </div>
+
+      <div class="grid">
+
+        <article class="card reveal">
+          <div class="thumb" data-video="https://assets.mixkit.co/videos/preview/mixkit-abstract-laser-lights-background-23246-large.mp4" tabindex="0" role="button" aria-label="Play: Dashboard Micro-interactions">
+            <div class="thumb-bg"></div>
+            <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="thumb-meta"><span class="timecode">0:15</span><span class="tag">UI Animation</span></div>
+          </div>
+          <div class="card-body">
+            <h3>Микро-взаимодействия на панели мониторинга</h3>
+            <p>Плавные переходы состояний и обратная связь при наведении курсора для аналитической панели SaaS.</p>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="thumb" data-video="https://assets.mixkit.co/videos/preview/mixkit-neon-light-from-a-tunnel-41761-large.mp4" tabindex="0" role="button" aria-label="Play: Short-Form Hooks">
+            <div class="thumb-bg"></div>
+            <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="thumb-meta"><span class="timecode">0:30</span><span class="tag">Reels</span></div>
+          </div>
+          <div class="card-body">
+            <h3>Короткие хуки</h3>
+            <p>Быстрые видеоролики-хуки, созданные для TikTok и Instagram Reels.</p>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="thumb" data-video="https://assets.mixkit.co/videos/preview/mixkit-blue-and-purple-neon-light-futuristic-background-41759-large.mp4" tabindex="0" role="button" aria-label="Play: Product Launch Reel">
+            <div class="thumb-bg"></div>
+            <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="thumb-meta"><span class="timecode">0:20</span><span class="tag">Product Showcase</span></div>
+          </div>
+          <div class="card-body">
+            <h3>Рилс - запуск продукта</h3>
+            <p>30-секундный анимационный ролик, демонстрирующий возможности SaaS-продукта при его запуске.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Обо мне</span>
+        <h2>Немного про меня ↓</h2>
+      </div>
+      <div class="about-panel reveal">
+        <p>Меня зовут Данил, я моушн-дизайнер, работаю в основном с командами, занимающимися Reels и SaaS-проектами — превращаю простые пользовательские интерфейсы и истории в нечто отзывчивое, живое и приятное.</p>
+        <div class="chips">
+          <span class="chip">After Effects</span>
+          <span class="chip">Figma</span>
+          <span class="chip">Premiere Pro</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap reveal">
+      <span class="eyebrow">Связь</span>
+      <h2>Давайте заставим что-нибудь двигаться.</h2>
+      <p>Открыт для создания рилс, демонстраций приложений, коротких проектов и демонстраций SaaS приложений. Обычно отвечаю в течение дня.</p>
+      <div class="contact-links">
+        <a class="btn" href="mailto:nonlysei@gmail.com">Эл. письмо</a>
+        <a class="btn-ghost" href="https://t.me/danil_motion" target="_blank" rel="noopener">Написать в телеграм</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <p>© 2026 Danil. Motion.</p>
+    <div class="footer-socials">
+      <a class="icon-btn" href="mailto:nonlysei@gmail.com" aria-label="Email">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+      <a class="icon-btn" href="https://t.me/danil_motion" target="_blank" rel="noopener" aria-label="Telegram">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M21.5 3.5L2.8 11c-.9.36-.88 1.66.02 1.98l4.4 1.55 1.7 5.5c.27.86 1.36 1.1 1.97.43l2.4-2.65 4.4 3.27c.8.6 1.94.18 2.16-.8l3.2-14.6c.24-1.1-.83-1.97-1.55-1.68zM8.9 14.1l8.6-7.7c.2-.18.46.1.28.3l-7 7.85-.3 3.6-1.6-4.05z" fill="currentColor"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Плеер для прямых ссылок на MP4 (без YouTube) */
+  document.querySelectorAll('.thumb').forEach(function(thumb){
+    function load(){
+      var videoUrl = thumb.getAttribute('data-video');
+      thumb.innerHTML = '<video src="' + videoUrl + '" autoplay controls playsinline></video>';
+      
+      // Скрываем мета-информацию и кнопку плея, чтобы не мешали просмотру
+      var playBtn = thumb.querySelector('.play-btn');
+      var meta = thumb.querySelector('.thumb-meta');
+      if(playBtn) playBtn.style.display = 'none';
+      if(meta) meta.style.display = 'none';
+    }
+    thumb.addEventListener('click', load);
+    thumb.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); load(); }
+    });
+  });
+
+  /* scroll-triggered reveal with stagger */
+  var revealEls = document.querySelectorAll('.reveal');
+  var groups = {};
+  revealEls.forEach(function(el){
+    var parent = el.closest('.grid') || el.parentElement;
+    if(!groups[parent]) groups[parent] = [];
+    groups[parent].push(el);
+  });
+  Object.values(groups).forEach(function(list){
+    list.forEach(function(el, i){
+      el.style.transitionDelay = (i * 110) + 'ms';
+    });
+  });
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* ambient cursor glow */
+  if (!reduceMotion && window.matchMedia('(pointer: fine)').matches) {
+    var glow = document.getElementById('cursor-glow');
+    var tx = 0, ty = 0, x = 0, y = 0;
+    window.addEventListener('mousemove', function(e){ tx = e.clientX; ty = e.clientY; }, { passive: true });
+    function tick(){
+      x += (tx - x) * 0.12;
+      y += (ty - y) * 0.12;
+      glow.style.transform = 'translate(' + (x - 210) + 'px,' + (y - 210) + 'px)';
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  /* gentle hero parallax */
+  if (!reduceMotion) {
+    var heroGlow = document.querySelector('.hero-glow');
+    window.addEventListener('scroll', function(){
+      if (!heroGlow) return;
+      var y = Math.min(window.scrollY, 600) * 0.12;
+      heroGlow.style.transform = 'translateY(' + y + 'px)';
+    }, { passive: true });
+  }
+})();
+</script>
+
+</body>
+</html>
