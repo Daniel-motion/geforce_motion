@@ -381,23 +381,35 @@
 
         /* Контейнер для свайпа видео */
         .reels-container {
-            display: flex;
-            gap: 26px;
-            overflow-x: auto;
-            padding: 24px 40px 50px 40px;
+            display: grid;
+            /* Делаем сетку из 5 равных колонок */
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            padding: 24px 20px 50px 20px;
             width: 100%;
-            max-width: 1340px; /* Немного увеличили ширину для лучшего отображения 4 карточек */
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .reels-container::-webkit-scrollbar {
-            display: none;
+        /* Чтобы на планшетах и мобилках карточки переносились и оставались читаемыми */
+        @media (max-width: 1200px) {
+            .reels-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .reels-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .reels-container {
+                grid-template-columns: 1fr;
+            }
         }
 
         .reel-card {
-            flex: 0 0 300px;
-            scroll-snap-align: center;
+            width: 100%;
             background: #fff;
             border-radius: var(--border-radius-large);
             overflow: hidden;
@@ -731,6 +743,11 @@
 .reel-card {
     cursor: pointer;
 }
+
+.reels-container .reel-card:nth-child(3) video {
+            object-fit: cover;
+            object-position: center center;
+}
     </style>
 </head>
 <body>
@@ -838,7 +855,6 @@
                     <span class="reel-tag">Лайв-Блог</span>
                 </div>
             </div>
-        </div>
 
             <div class="reel-card reveal">
                 <div class="video-wrapper">
