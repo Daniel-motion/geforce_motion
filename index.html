@@ -83,6 +83,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 20px; /* Предотвращает слипание на средних экранах */
         }
 
         .logo {
@@ -742,6 +743,14 @@
 /* Курсор указателя для карточек */
 .reel-card {
     cursor: pointer;
+
+@media (max-width: 480px) {
+    .nav-links {
+        gap: 12px; /* Уменьшает расстояние между ссылками на телефонах */
+    }
+    .nav-links a {
+        font-size: 11px; /* Слегка уменьшает шрифт на очень маленьких экранах */
+    }
 }
 
 .reels-container .reel-card:nth-child(3) video {
