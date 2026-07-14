@@ -1,725 +1,1011 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Danil — Motion Designer | UI Animation, Reels &amp; SaaS</title>
-<meta name="description" content="Motion designer specializing in UI animation, micro-interactions and short-form video for SaaS and product teams.">
-<meta name="theme-color" content="#0a0a0a">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио Видеомонтажера</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --apple-bg: #f5f5f7;
+            --apple-text: #1d1d1f;
+            --apple-secondary: #86868b;
+            --apple-blue: #0071e3;
+            --apple-blue-hover: #0077ed;
+            --apple-glass: rgba(255, 255, 255, 0.72);
+            --border-radius-large: 22px;
+            --border-radius-pill: 980px;
+            --accent-violet: #7b61ff;
+            --accent-glow: rgba(0, 113, 227, 0.18);
+        }
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
 
-<style>
-  :root{
-    --bg:#0a0a0a;
-    --bg-deep:#050505;
-    --violet-600:#7c3aed;
-    --violet-400:#a855f7;
-    --violet-200:#c4b5fd;
-    --white-100:rgba(255,255,255,1);
-    --white-70:rgba(255,255,255,.70);
-    --white-45:rgba(255,255,255,.45);
-    --white-25:rgba(255,255,255,.25);
-    --white-10:rgba(255,255,255,.10);
-    --white-05:rgba(255,255,255,.05);
-    --glass-bg:rgba(255,255,255,.05);
-    --glass-bg-hover:rgba(255,255,255,.08);
-    --glass-border:rgba(255,255,255,.10);
-    --ease:cubic-bezier(.25,.46,.45,.94);
-    --r-lg:20px;
-    --r-md:16px;
-    --r-sm:10px;
-    --maxw:1140px;
-  }
+        html {
+            scroll-behavior: smooth;
+        }
 
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;background:var(--bg);}
-  body{
-    background:var(--bg);
-    color:var(--white-100);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  img,svg,video{display:block;max-width:100%;}
-  a{color:inherit;text-decoration:none;}
-  ul{list-style:none;}
-  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;}
+        body {
+            background-color: var(--apple-bg);
+            color: var(--apple-text);
+            overflow-x: hidden;
+        }
 
-  a:focus-visible,button:focus-visible,.thumb:focus-visible{
-    outline:2px solid var(--violet-400);
-    outline-offset:3px;
-    border-radius:6px;
-  }
+        ::selection {
+            background: var(--apple-blue);
+            color: #fff;
+        }
 
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.5rem;}
-  .eyebrow{
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:.72rem;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    color:var(--violet-200);
-    display:inline-block;
-    margin-bottom:.9rem;
-  }
+        /* Скролл-ревил анимации */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-  /* ---------- ambient cursor glow ---------- */
-  #cursor-glow{
-    position:fixed;
-    top:0;left:0;
-    width:420px;height:420px;
-    border-radius:50%;
-    background:radial-gradient(circle, rgba(124,58,237,.22), transparent 70%);
-    filter:blur(30px);
-    transform:translate(-9999px,-9999px);
-    pointer-events:none;
-    z-index:1;
-    will-change:transform;
-  }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
+            html { scroll-behavior: auto; }
+        }
 
-  /* ---------- nav ---------- */
-  header.nav{
-    position:fixed;
-    top:0;left:0;right:0;
-    z-index:50;
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-    background:rgba(10,10,10,.55);
-    border-bottom:1px solid var(--white-05);
-  }
-  .nav-inner{
-    max-width:var(--maxw);
-    margin:0 auto;
-    padding:0 1.5rem;
-    height:64px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-  }
-  .logo{font-weight:700;font-size:1rem;letter-spacing:-.01em;}
-  .logo span{color:var(--violet-400);}
-  .nav-links{display:flex;gap:1.75rem;font-size:.88rem;color:var(--white-70);}
-  .nav-links a{transition:color .25s var(--ease);}
-  .nav-links a:hover{color:var(--white-100);}
-  .nav-socials{display:none;gap:1rem;}
-  @media (min-width:640px){ .nav-socials{display:flex;} }
-  .icon-btn{
-    width:34px;height:34px;
-    display:flex;align-items:center;justify-content:center;
-    border-radius:var(--r-sm);
-    color:var(--white-45);
-    transition:color .25s var(--ease), background .25s var(--ease);
-  }
-  .icon-btn:hover{color:var(--violet-200);background:var(--white-05);}
+        /* Навигационная панель (Apple Glass) */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 48px;
+            background-color: var(--apple-glass);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-  /* ---------- hero ---------- */
-  .hero{
-    position:relative;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:6rem 1.5rem 4rem;
-    overflow:hidden;
-  }
-  .hero-glow{
-    position:absolute;
-    inset:-20%;
-    z-index:0;
-    background:
-      radial-gradient(circle at 20% 25%, rgba(124,58,237,.30), transparent 45%),
-      radial-gradient(circle at 80% 70%, rgba(168,85,247,.22), transparent 45%);
-    filter:blur(60px);
-    animation:driftGlow 22s ease-in-out infinite alternate;
-  }
-  @keyframes driftGlow{
-    0%{transform:translate(0,0) scale(1);}
-    100%{transform:translate(3%,-4%) scale(1.08);}
-  }
-  .hero-content{position:relative;z-index:2;max-width:760px;}
-  .hero h1{
-    font-size:clamp(2rem, 4vw + 1.2rem, 3.5rem);
-    font-weight:700;
-    letter-spacing:-.02em;
-    line-height:1.08;
-    background:linear-gradient(135deg, #ffffff 0%, #ffffff 35%, var(--violet-200) 75%, var(--violet-400) 100%);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-    opacity:0;
-    transform:translateY(16px) scale(.98);
-    animation:heroIn .9s var(--ease) .15s forwards;
-  }
-  .hero .tagline{
-    margin-top:1.1rem;
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:.78rem;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--white-45);
-    opacity:0;
-    animation:heroIn .9s var(--ease) .35s forwards;
-  }
-  .hero p.lede{
-    margin:1.4rem auto 0;
-    max-width:480px;
-    font-size:1.02rem;
-    color:var(--white-70);
-    font-weight:400;
-    opacity:0;
-    animation:heroIn .9s var(--ease) .5s forwards;
-  }
-  .hero .cta{
-    margin-top: 3.5rem; 
-    opacity:0;
-    animation:heroIn .9s var(--ease) .65s forwards;
-  }
-  @keyframes heroIn{
-    to{opacity:1;transform:translateY(0) scale(1);}
-  }
+        .nav-container {
+            width: 100%;
+            max-width: 1024px;
+            padding: 0 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    gap:.5rem;
-    min-height:44px;
-    padding:.85rem 1.7rem;
-    border-radius:var(--r-md);
-    background:rgba(124,58,237,.16);
-    border:1px solid rgba(124,58,237,.4);
-    font-size:.92rem;
-    font-weight:500;
-    transition:background .3s var(--ease), box-shadow .3s var(--ease), transform .3s var(--ease);
-  }
-  .btn:hover{
-    background:rgba(124,58,237,.28);
-    box-shadow:0 0 30px rgba(124,58,237,.35);
-    transform:translateY(-1px);
-  }
+        .logo {
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-  .scroll-cue{
-    position:absolute;
-    bottom:2.2rem;left:50%;
-    transform:translateX(-50%);
-    z-index:2;
-    color:var(--white-25);
-    animation:bob 2.4s ease-in-out infinite;
-  }
-  @keyframes bob{ 0%,100%{transform:translate(-50%,0);} 50%{transform:translate(-50%,8px);} }
+        .logo i {
+            color: var(--apple-blue);
+        }
 
-  /* ---------- generic section ---------- */
-  section{padding:6rem 0;position:relative;z-index:1;}
-  .section-head{max-width:560px;margin-bottom:3rem;}
-  .section-head h2{
-    font-size:clamp(1.6rem, 2vw + 1.2rem, 2.25rem);
-    font-weight:600;
-    letter-spacing:-.01em;
-  }
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
 
-  /* ---------- reveal-on-scroll ---------- */
-  .reveal{
-    opacity:0;
-    transform:translateY(26px);
-    transition:opacity .8s var(--ease), transform .8s var(--ease);
-  }
-  .reveal.is-visible{opacity:1;transform:translateY(0);}
+        .nav-links a {
+            text-decoration: none;
+            color: var(--apple-secondary);
+            font-size: 12px;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            position: relative;
+        }
 
-  /* ---------- work grid ---------- */
-  .grid{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:1.5rem;
-  }
-  @media (min-width:1024px){
-    .grid{grid-template-columns:1fr 1fr;gap:1.75rem;}
-  }
+        .nav-links a:not(.nav-btn)::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 1px;
+            background: var(--apple-text);
+            transition: width 0.25s ease;
+        }
 
-  .card{
-    background:var(--glass-bg);
-    border:1px solid var(--glass-border);
-    border-radius:var(--r-lg);
-    overflow:hidden;
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-    transition:transform .4s var(--ease), box-shadow .4s var(--ease), background .4s var(--ease);
-  }
-  @media (pointer:fine){
-    .card:hover{
-      transform:translateY(-4px);
-      background:var(--glass-bg-hover);
-      box-shadow:0 0 44px rgba(124,58,237,.22);
-    }
-  }
+        .nav-links a:not(.nav-btn):hover::after {
+            width: 100%;
+        }
 
-  /* Базовый стиль превью */
-  .thumb{
-    position:relative;
-    cursor:pointer;
-    background:linear-gradient(135deg,#150c22,#0a0a0a);
-    overflow:hidden;
-    width:100%;
-  }
+        .nav-links a:hover {
+            color: var(--apple-text);
+        }
 
-  /* Магия: разделяем пропорции для обычных видео и для REELS */
-  .card:not(.is-reel) .thumb {
-    aspect-ratio: 16/9; /* Обычные горизонтальные карточки */
-  }
+        .nav-btn {
+            background-color: var(--apple-text);
+            color: #fff !important;
+            padding: 5px 14px;
+            border-radius: var(--border-radius-pill);
+            font-size: 11px !important;
+            font-weight: 500 !important;
+            transition: opacity 0.2s ease, transform 0.2s ease !important;
+        }
 
-  .card.is-reel .thumb {
-    aspect-ratio: 9/16; /* ВЕРТИКАЛЬНЫЕ REELS КАРТОЧКИ */
-  }
+        .nav-btn:hover {
+            opacity: 0.85;
+            transform: scale(1.04);
+        }
 
-  .thumb iframe, .thumb video{width:100%;height:100%;border:0;display:block;object-fit:cover;}
-  
-  .thumb-bg{
-    position:absolute;inset:0;
-    background-size:160% 160%;
-    animation:thumbDrift 14s ease-in-out infinite alternate;
-  }
-  @keyframes thumbDrift{0%{background-position:20% 30%;}100%{background-position:80% 70%;}}
+        /* Первый экран (Hero Section) */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 620px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            padding-top: 48px;
+            overflow: hidden;
+            isolation: isolate;
+        }
 
-  .card:nth-child(1) .thumb-bg{background-image:radial-gradient(circle at 30% 30%, rgba(168,85,247,.4), transparent 60%);}
-  .card:nth-child(2) .thumb-bg{background-image:radial-gradient(circle at 70% 25%, rgba(196,181,253,.35), transparent 60%);}
-  .card:nth-child(3) .thumb-bg{background-image:radial-gradient(circle at 50% 60%, rgba(124,58,237,.4), transparent 60%);}
-  .card:nth-child(4) .thumb-bg{background-image:radial-gradient(circle at 25% 65%, rgba(168,85,247,.35), transparent 60%);}
-  .card:nth-child(5) .thumb-bg{background-image:radial-gradient(circle at 65% 40%, rgba(196,181,253,.4), transparent 60%);}
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background: radial-gradient(circle at 50% 25%, #ffffff 0%, var(--apple-bg) 62%);
+        }
 
-  .play-btn{
-    position:absolute;
-    top:50%;left:50%;
-    transform:translate(-50%,-50%);
-    width:56px;height:56px;
-    border-radius:50%;
-    background:rgba(255,255,255,.08);
-    backdrop-filter:blur(10px);
-    border:1px solid var(--white-25);
-    display:flex;align-items:center;justify-content:center;
-    transition:transform .3s var(--ease), background .3s var(--ease);
-    z-index:2;
-  }
-  .thumb:hover .play-btn{transform:translate(-50%,-50%) scale(1.08);background:rgba(124,58,237,.3);}
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(70px);
+            z-index: -1;
+            opacity: 0.55;
+            animation: float 14s ease-in-out infinite;
+        }
 
-  .thumb-meta{
-    position:absolute;
-    bottom:.85rem;left:.85rem;right:.85rem;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    z-index:2;
-  }
-  .timecode{
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:.72rem;
-    color:var(--white-70);
-    background:rgba(0,0,0,.4);
-    padding:.2rem .5rem;
-    border-radius:6px;
-  }
-  .tag{
-    font-size:.66rem;
-    text-transform:uppercase;
-    letter-spacing:.06em;
-    color:var(--violet-200);
-    background:rgba(124,58,237,.22);
-    padding:.25rem .6rem;
-    border-radius:999px;
-  }
+        .hero-orb.orb-1 {
+            width: 480px;
+            height: 480px;
+            top: -160px;
+            left: -140px;
+            background: radial-gradient(circle, rgba(0,113,227,0.35), transparent 70%);
+        }
 
-  .card-body{padding:1.3rem 1.4rem 1.5rem;}
-  .card-body h3{font-size:1.08rem;font-weight:600;margin-bottom:.45rem;letter-spacing:-.005em;}
-  .card-body p{font-size:.9rem;color:var(--white-45);}
+        .hero-orb.orb-2 {
+            width: 420px;
+            height: 420px;
+            bottom: -180px;
+            right: -120px;
+            background: radial-gradient(circle, rgba(123,97,255,0.28), transparent 70%);
+            animation-delay: -6s;
+        }
 
-  /* ---------- НОВЫЕ СТИЛИ ДЛЯ УМНОГО REELS СЛАЙДЕРА ---------- */
-  .reels-container {
-    width: 100%;
-    position: relative;
-    padding: 0 10px;
-  }
-  .reels-swiper {
-    overflow: visible !important; /* Умная подсказка: позволяет видеть края соседних слайдов */
-  }
-  /* Кастомный дизайн стрелок, плавно появляющихся при наведении */
-  .swiper-button-next, .swiper-button-prev {
-    color: var(--violet-400) !important;
-    background: rgba(10,10,10,0.6);
-    backdrop-filter: blur(8px);
-    width: 46px !important;
-    height: 46px !important;
-    border-radius: 50%;
-    border: 1px solid var(--glass-border);
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -20px) scale(1.06); }
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--apple-blue);
+            background: rgba(0, 113, 227, 0.08);
+            padding: 6px 16px;
+            border-radius: var(--border-radius-pill);
+            margin-bottom: 22px;
+            letter-spacing: 0.01em;
+            animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.05s both;
+        }
+
+        .hero-eyebrow .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #30d158;
+            box-shadow: 0 0 0 0 rgba(48, 209, 88, 0.5);
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0% { box-shadow: 0 0 0 0 rgba(48, 209, 88, 0.5); }
+            70% { box-shadow: 0 0 0 8px rgba(48, 209, 88, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(48, 209, 88, 0); }
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.06;
+            margin-bottom: 14px;
+            background: linear-gradient(180deg, #1d1d1f 0%, #3a3a3d 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s both;
+        }
+
+        .hero h1 .accent {
+            background: linear-gradient(100deg, var(--apple-blue), var(--accent-violet));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 22px;
+            color: var(--apple-secondary);
+            font-weight: 400;
+            letter-spacing: -0.012em;
+            max-width: 560px;
+            margin-bottom: 34px;
+            line-height: 1.35;
+            animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.25s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.35s both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-primary {
+            background-color: var(--apple-blue);
+            color: #fff;
+            padding: 13px 26px;
+            border-radius: var(--border-radius-pill);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: 0 8px 20px rgba(0, 113, 227, 0.25);
+            transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--apple-blue-hover);
+            transform: scale(1.03) translateY(-1px);
+            box-shadow: 0 12px 26px rgba(0, 113, 227, 0.32);
+        }
+
+        .btn-secondary {
+            border: 1px solid rgba(0,0,0,0.12);
+            color: var(--apple-text);
+            padding: 13px 26px;
+            border-radius: var(--border-radius-pill);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(10px);
+            transition: background-color 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #fff;
+            border-color: rgba(0,0,0,0.18);
+            transform: scale(1.03) translateY(-1px);
+        }
+
+        /* Статистика под hero */
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 64px;
+            animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.45s both;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item strong {
+            display: block;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-item span {
+            font-size: 13px;
+            color: var(--apple-secondary);
+            font-weight: 400;
+        }
+
+        .stat-divider {
+            width: 1px;
+            background: rgba(0,0,0,0.1);
+        }
+
+        /* Секция ленты коротких видео (Reels) */
+        .portfolio-section {
+            padding: 120px 0;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+            padding: 0 20px;
+        }
+
+        .section-eyebrow {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--apple-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section-header h2 {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: var(--apple-secondary);
+        }
+
+        /* Контейнер для свайпа видео */
+        .reels-container {
+            display: flex;
+            gap: 26px;
+            overflow-x: auto;
+            padding: 24px 40px 50px 40px;
+            width: 100%;
+            max-width: 1340px; /* Немного увеличили ширину для лучшего отображения 4 карточек */
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .reels-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .reel-card {
+            flex: 0 0 300px;
+            scroll-snap-align: center;
+            background: #fff;
+            border-radius: var(--border-radius-large);
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .reel-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.12);
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 533px;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        .video-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%);
+            pointer-events: none;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .reel-card:hover .video-wrapper video {
+            transform: scale(1.05);
+        }
+
+        .play-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            color: var(--apple-text);
+        }
+
+        .reel-info {
+            padding: 22px;
+        }
+
+        .reel-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
+        }
+
+        .reel-info p {
+            font-size: 13px;
+            color: var(--apple-secondary);
+            line-height: 1.5;
+        }
+
+        .reel-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--apple-blue);
+            background-color: rgba(0, 113, 227, 0.08);
+            padding: 5px 12px;
+            border-radius: var(--border-radius-pill);
+            margin-top: 12px;
+        }
+
+        /* Секция "Обо мне" и стек */
+        .about-section {
+            padding: 120px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .hero h1 { font-size: 42px; }
+            .hero p { font-size: 18px; }
+            .reels-container { padding: 20px; }
+            .hero-stats { gap: 32px; }
+            .stat-item strong { font-size: 22px; }
+        }
+
+        .about-text .section-eyebrow {
+            margin-bottom: 14px;
+        }
+
+        .about-text h2 {
+            font-size: 38px;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            margin-bottom: 22px;
+            line-height: 1.15;
+        }
+
+        .about-text p {
+            font-size: 17px;
+            line-height: 1.6;
+            color: var(--apple-secondary);
+            margin-bottom: 18px;
+        }
+
+        /* Сетка навыков / Стека */
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .stack-item {
+            background-color: #fff;
+            padding: 22px;
+            border-radius: var(--border-radius-large);
+            border: 1px solid rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .stack-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.06);
+            border-color: rgba(0,0,0,0.02);
+        }
+
+        .stack-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #fafafc, var(--apple-bg));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--apple-blue);
+            flex-shrink: 0;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.8), 0 1px 3px rgba(0,0,0,0.06);
+        }
+
+        .stack-info h4 {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .stack-info p {
+            font-size: 12px;
+            color: var(--apple-secondary);
+        }
+
+        /* Футер и контакты */
+        footer {
+            background: linear-gradient(180deg, #ffffff 0%, #fafafc 100%);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0,113,227,0.08), transparent 70%);
+            pointer-events: none;
+        }
+
+        .contact-box {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .contact-box h2 {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            margin-bottom: 16px;
+        }
+
+        .contact-box p {
+            color: var(--apple-secondary);
+            font-size: 17px;
+            margin-bottom: 34px;
+            line-height: 1.5;
+        }
+
+        .footer-note {
+            margin-top: 48px;
+            font-size: 12px;
+            color: #b0b0b5;
+        }
+
+        /* Плавающие кнопки связи */
+        .floating-contact {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+
+        .float-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+            transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease;
+            text-decoration: none;
+        }
+
+        .float-btn:hover {
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.24);
+        }
+
+        .float-tg {
+            background: linear-gradient(145deg, #34ade0, #229ED9);
+        }
+
+
+.float-mail {
+    background: linear-gradient(145deg, #323236, #1d1d1f);
+} /* Тут была пропущена закрывающая скобка */
+
+/* Модальное окно для полноэкранного просмотра */
+.video-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
     opacity: 0;
-    transition: opacity 0.3s ease, background 0.3s ease !important;
-  }
-  .reels-container:hover .swiper-button-next,
-  .reels-container:hover .swiper-button-prev {
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.video-modal.active {
     opacity: 1;
-  }
-  .swiper-button-next::after, .swiper-button-prev::after {
-    font-size: 18px !important;
-    font-weight: bold;
-  }
-  .swiper-pagination-bullet {
-    background: var(--white-45) !important;
-  }
-  .swiper-pagination-bullet-active {
-    background: var(--violet-400) !important;
-    width: 18px !important;
-    border-radius: 4px !important;
-    transition: width .3s ease;
-  }
-  .swiper-pagination {
-    bottom: -30px !important;
-  }
+    pointer-events: all;
+}
 
-  /* ---------- about ---------- */
-  .about-panel{
-    background:var(--glass-bg);
-    border:1px solid var(--glass-border);
-    border-radius:var(--r-lg);
-    padding:2.4rem;
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-  }
-  .about-panel p{color:var(--white-70);font-size:1.02rem;max-width:640px;}
-  .about-panel p + p{margin-top:.9rem;}
-  .chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.6rem;}
-  .chip{
-    font-size:.8rem;
-    padding:.45rem 1rem;
-    border-radius:999px;
-    border:1px solid var(--glass-border);
-    background:rgba(255,255,255,.03);
-    color:var(--white-70);
-  }
+.modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 420px; /* Идеально для вертикальных Reels */
+    height: 80vh;
+    max-height: 750px;
+    border-radius: var(--border-radius-large);
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-  /* ---------- contact ---------- */
-  .contact{text-align:center;}
-  .contact .wrap{max-width:560px;}
-  .contact h2{
-    font-size:clamp(1.8rem, 3vw + 1rem, 2.6rem);
-    font-weight:600;
-    letter-spacing:-.01em;
-    margin-bottom:1rem;
-  }
-  .contact p{color:var(--white-70);margin-bottom:2rem;}
-  .contact-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
-  .btn-ghost{
-    display:inline-flex;align-items:center;gap:.5rem;
-    min-height:44px;padding:.85rem 1.5rem;
-    border-radius:var(--r-md);
-    border:1px solid var(--glass-border);
-    background:var(--glass-bg);
-    font-size:.9rem;
-    transition:background .3s var(--ease), border-color .3s var(--ease);
-  }
-  .btn-ghost:hover{background:var(--glass-bg-hover);border-color:var(--white-25);}
+.video-modal.active .modal-content {
+    transform: scale(1);
+}
 
-  /* ---------- footer ---------- */
-  footer{
-    border-top:1px solid var(--white-05);
-    padding:2rem 0;
-  }
-  .footer-inner{
-    display:flex;
-    flex-direction:column;
-    gap:1rem;
-    align-items:center;
-    text-align:center;
-  }
-  @media (min-width:640px){
-    .footer-inner{flex-direction:row;justify-content:space-between;text-align:left;}
-  }
-  .footer-inner p{font-size:.82rem;color:var(--white-25);}
-  .footer-socials{display:flex;gap:.75rem;}
+.modal-content video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-  /* ---------- reduced motion ---------- */
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
-    #cursor-glow{display:none;}
-  }
-</style>
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    z-index: 10;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Курсор указателя для карточек */
+.reel-card {
+    cursor: pointer;
+}
+    </style>
 </head>
 <body>
 
-<div id="cursor-glow" aria-hidden="true"></div>
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <i data-lucide="video" style="width: 18px; height: 18px;"></i>
+                <span>Daniel.Geforce</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#portfolio">Портфолио</a>
+                <a href="#about">Обо мне</a>
+                <a href="#contacts" class="nav-btn">Связаться</a>
+            </nav>
+        </div>
+    </header>
 
-<header class="nav">
-  <div class="nav-inner">
-    <a class="logo" href="#top">danil<span>.</span></a>
-    <nav class="nav-links">
-      <a href="#work">Работы</a>
-      <a href="#about">Обо мне</a>
-      <a href="#contact">Контакты</a>
-    </nav>
-    <div class="nav-socials">
-      <a class="icon-btn" href="mailto:nonlysei@gmail.com" aria-label="Email">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </a>
-      <a class="icon-btn" href="https://t.me/danil_motion" target="_blank" rel="noopener" aria-label="Telegram">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M21.5 3.5L2.8 11c-.9.36-.88 1.66.02 1.98l4.4 1.55 1.7 5.5c.27.86 1.36 1.1 1.97.43l2.4-2.65 4.4 3.27c.8.6 1.94.18 2.16-.8l3.2-14.6c.24-1.1-.83-1.97-1.55-1.68zM8.9 14.1l8.6-7.7c.2-.18.46.1.28.3l-7 7.85-.3 3.6-1.6-4.05z" fill="currentColor"/></svg>
-      </a>
-    </div>
-  </div>
-</header>
+    <section class="hero">
+        <div class="hero-orb orb-1"></div>
+        <div class="hero-orb orb-2"></div>
 
-<main id="top">
+        <div class="hero-eyebrow">
+            <span class="dot"></span>
+            Открыт для новых проектов
+        </div>
 
-  <section class="hero">
-    <div class="hero-glow" aria-hidden="true"></div>
-    <div class="hero-content">
-      <h1>Stories in motion.</h1>
-      <p class="tagline">Reels · UI Animation · SaaS</p>
-      <p class="lede">Я создаю высококонверсионные рилсы, виральный моушн-дизайн и динамичный короткий контент для брендов и авторов — кадр за кадром, хук за хуком.</p>
-      <div class="cta">
-        <a class="btn" href="#work">Мои работы ↓</a>
-      </div>
-    </div>
-    <div class="scroll-cue" aria-hidden="true">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-  </section>
+        <h1>Монтаж видео,<br>который <span class="accent">удерживает</span>.</h1>
+        <p>Создаю динамичные ролики, которые досматривают до конца — от идеи до финального рендера.</p>
+        <div class="hero-buttons">
+            <a href="#contacts" class="btn-primary">Связаться</a>
+            <a href="#portfolio" class="btn-secondary">Смотреть работы</a>
+        </div>
 
-  <section id="work">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="eyebrow">Мои работы</span>
-        <h2>Последние проекты</h2>
-      </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <strong>3+</strong>
+                <span>года опыта</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <strong>120+</strong>
+                <span>проектов</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <strong>5М+</strong>
+                <span>просмотров</span>
+            </div>
+        </div>
+    </section>
 
-      <div class="grid" style="margin-bottom: 4rem;">
-        <article class="card reveal">
-          <div class="thumb" data-video="https://assets.mixkit.co/videos/preview/mixkit-abstract-laser-lights-background-23246-large.mp4" tabindex="0" role="button" aria-label="Play: Dashboard Micro-interactions">
-            <div class="thumb-bg"></div>
-            <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
-            <div class="thumb-meta"><span class="timecode">0:15</span><span class="tag">UI Animation</span></div>
-          </div>
-          <div class="card-body">
-            <h3>Микро-взаимодействия на панели мониторинга</h3>
-            <p>Плавные переходы состояний и обратная связь при наведении курсора для аналитической панели SaaS.</p>
-          </div>
-        </article>
+    <section id="portfolio" class="portfolio-section">
+        <div class="section-header reveal">
+            <span class="section-eyebrow">Портфолио</span>
+            <h2>Лента Reels</h2>
+            <p>Листайте вбок, чтобы оценить динамику моих недавних работ</p>
+        </div>
 
-        <article class="card reveal">
-          <div class="thumb" data-video="https://assets.mixkit.co/videos/preview/mixkit-blue-and-purple-neon-light-futuristic-background-41759-large.mp4" tabindex="0" role="button" aria-label="Play: Product Launch Reel">
-            <div class="thumb-bg"></div>
-            <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
-            <div class="thumb-meta"><span class="timecode">0:20</span><span class="tag">Product Showcase</span></div>
-          </div>
-          <div class="card-body">
-            <h3>Рилс - запуск продукта</h3>
-            <p>30-секундный анимационный ролик, демонстрирующий возможности SaaS-продукта при его запуске.</p>
-          </div>
-        </article>
-      </div>
+        <div class="reels-container">
+            <div class="reel-card reveal">
+                <div class="video-wrapper">
+                    <div class="play-badge"><i data-lucide="play" style="width:16px;height:16px;"></i></div>
+                    <video src="videos/build.mp4" loop muted playsinline autoplay></video>
+                </div>
+                <div class="reel-info">
+                    <h3>Reels для строительной компании</h3>
+                    <p>Динамичный стиль с акцентом на технические детали.</p>
+                    <span class="reel-tag">150К просмотров</span>
+                </div>
+            </div>
 
-      <div class="section-head reveal" style="margin-top: 5rem; margin-bottom: 2rem;">
-        <span class="eyebrow">Вертикальный контент</span>
-        <h2>Лента Reels & Shorts</h2>
-      </div>
+            <div class="reel-card reveal">
+                <div class="video-wrapper">
+                    <div class="play-badge"><i data-lucide="play" style="width:16px;height:16px;"></i></div>
+                    <video src="videos/fitness.mp4" loop muted playsinline autoplay></video>
+                </div>
+                <div class="reel-info">
+                    <h3>Промо-Reels для фитнес зала</h3>
+                    <p>Динамичный стиль с акцентом на движение и удержание внимания.</p>
+                    <span class="reel-tag">Промо-видео</span>
+                </div>
+            </div>
 
-      <div class="reels-container reveal">
-        <div class="swiper reels-swiper">
-          <div class="swiper-wrapper">
+            <div class="reel-card reveal">
+                <div class="video-wrapper">
+                    <div class="play-badge"><i data-lucide="play" style="width:16px;height:16px;"></i></div>
+                    <video src="videos/crypto.mp4" loop muted playsinline autoplay></video>
+                </div>
+                <div class="reel-info">
+                    <h3>До/После о криптовалюте</h3>
+                    <p>Сравнение до и после с использованием инфографики и цветокоррекции.</p>
+                    <span class="reel-tag">Инфографика</span>
+                </div>
+            </div>
+
+            <div class="reel-card reveal">
+                <div class="video-wrapper">
+                    <div class="play-badge"><i data-lucide="play" style="width:16px;height:16px;"></i></div>
+                    <video src="videos/musk.mp4" loop muted playsinline autoplay></video>
+                </div>
+                <div class="reel-info">
+                    <h3>Блог о новостях</h3>
+                    <p>Обзор последних событий с элементами интерактивности.</p>
+                    <span class="reel-tag">Лайв-Блог</span>
+                </div>
+            </div>
+        </div>
+
+            <div class="reel-card reveal">
+                <div class="video-wrapper">
+                    <div class="play-badge"><i data-lucide="play" style="width:16px;height:16px;"></i></div>
+                    <video src="videos/musk.mp4" loop muted playsinline autoplay></video>
+                </div>
+                <div class="reel-info">
+                    <h3>Моушен-дизайн о саморазвитии</h3>
+                    <p>Чистая динамика и удержание внимания</p>
+                    <span class="reel-tag">Мотивация</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="about-grid">
+            <div class="about-text reveal">
+                <span class="section-eyebrow">Обо мне</span>
+                <h2>Создаю видео с акцентом на удержание.</h2>
+                <p>Я занимаюсь профессиональным монтажом вертикального контента более 3-х лет. Знаю, как зацепить зрителя в первые 2 секунды и заставить досмотреть видео до конца.</p>
+                <p>Работаю быстро, строго соблюдаю дедлайны и всегда на связи для обсуждения правок.</p>
+            </div>
             
-            <div class="swiper-slide">
-              <article class="card is-reel">
-                <div class="thumb" data-video="PromoFitnessReel.mp4" tabindex="0" role="button" aria-label="Play: Elon Musk Reel">
-                  <div class="thumb-bg"></div>
-                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
-                  <div class="thumb-meta"><span class="timecode">0:31</span><span class="tag">Reels</span></div>
+            <div class="stack-grid reveal">
+                <div class="stack-item">
+                    <div class="stack-icon">
+                        <i data-lucide="zap" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="stack-info">
+                        <h4>Premiere Pro</h4>
+                        <p>Основной монтаж</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                  <h3>Короткие хуки</h3>
-                  <p>Быстрые видеоролики-хуки, созданные для TikTok и Instagram Reels.</p>
-                </div>
-              </article>
-            </div>
 
-            <div class="swiper-slide">
-              <article class="card is-reel">
-                <div class="thumb" data-video="ShortCutsReel.mp4" tabindex="0" role="button" aria-label="Play: Reel 2">
-                  <div class="thumb-bg"></div>
-                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
-                  <div class="thumb-meta"><span class="timecode">0:12</span><span class="tag">Reels</span></div>
+                <div class="stack-item">
+                    <div class="stack-icon">
+                        <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="stack-info">
+                        <h4>After Effects</h4>
+                        <p>Сложная графика</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                  <h3>Виральный контент</h3>
-                  <p>Динамичный монтаж и удержание внимания с первых секунд.</p>
-                </div>
-              </article>
-            </div>
 
-            <div class="swiper-slide">
-              <article class="card is-reel">
-                <div class="thumb" data-video="Elonmuskreel.mp4" tabindex="0" role="button" aria-label="Play: Reel 3">
-                  <div class="thumb-bg"></div>
-                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
-                  <div class="thumb-meta"><span class="timecode">0:23</span><span class="tag">Shorts</span></div>
+                <div class="stack-item">
+                    <div class="stack-icon">
+                        <i data-lucide="palette" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="stack-info">
+                        <h4>DaVinci Resolve</h4>
+                        <p>Цветокоррекция</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                  <h3>Удержание внимания</h3>
-                  <p>Проработка визуальных триггеров под звуковые эффекты.</p>
-                </div>
-              </article>
-            </div>
 
-          </div>
+                <div class="stack-item">
+                    <div class="stack-icon">
+                        <i data-lucide="volume-2" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="stack-info">
+                        <h4>Sound Design</h4>
+                        <p>Объемный звук</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
-      </div>
+    </section>
 
-    </div>
-  </section>
-
-  <section id="about">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="eyebrow">Обо мне</span>
-        <h2>Немного про меня ↓</h2>
-      </div>
-      <div class="about-panel reveal">
-        <p>Меня зовут Данил, я моушн-дизайнер, работаю в основном с командами, занимающимися Reels и SaaS-проектами — превращаю простые пользовательские интерфейсы и истории в нечто отзывчивое, живое и приятное.</p>
-        <div class="chips">
-          <span class="chip">After Effects</span>
-          <span class="chip">Figma</span>
-          <span class="chip">Premiere Pro</span>
+    <footer id="contacts">
+        <div class="contact-box reveal">
+            <h2>Начнем ваш проект?</h2>
+            <p>Обсудим сценарий, хронометраж и стоимость в удобном для вас мессенджере или по почте.</p>
+            <a href="https://t.me/BruteGeforce" class="btn-primary" target="_blank">Написать мне в Telegram</a>
+            <p class="footer-note">Daniel.Geforce — видеомонтаж © 2026</p>
         </div>
-      </div>
+    </footer>
+
+    <div class="floating-contact">
+    <a href="https://t.me/BruteGeforce" target="_blank" class="float-btn float-tg" title="Написать в Telegram">
+        <i data-lucide="send" style="width: 22px; height: 22px; margin-right: 2px;"></i>
+    </a>
+    <a href="mailto:nonlysei@gmail.com" class="float-btn float-mail" title="Написать на почту">
+        <i data-lucide="mail" style="width: 22px; height: 22px;"></i>
+    </a>
+</div>
+
+<div class="video-modal" id="videoModal">
+    <button class="modal-close" id="modalClose">
+        <i data-lucide="x" style="width: 22px; height: 22px;"></i>
+    </button>
+    <div class="modal-content">
+        <video id="modalVideo" controls playsinline></video>
     </div>
-  </section>
+</div>
 
-  <section id="contact" class="contact">
-    <div class="wrap reveal">
-      <span class="eyebrow">Связь</span>
-      <h2>Давайте заставим что-нибудь двигаться.</h2>
-      <p>Открыт для создания рилс, демонстраций приложений, коротких проектов и демонстраций SaaS приложений. Обычно отвечаю в течение дня.</p>
-      <div class="contact-links">
-        <a class="btn" href="mailto:nonlysei@gmail.com">Эл. письмо</a>
-        <a class="btn-ghost" href="https://t.me/danil_motion" target="_blank" rel="noopener">Написать в телеграм</a>
-      </div>
-    </div>
-  </section>
+    <script>
+    // Инициализация иконок Lucide
+    lucide.createIcons();
 
-</main>
+    // Элементы модального окна
+    const modal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
+    const modalClose = document.getElementById('modalClose');
+    const cards = document.querySelectorAll('.reel-card');
 
-<footer>
-  <div class="wrap footer-inner">
-    <p>© 2026 Danil. Motion.</p>
-    <div class="footer-socials">
-      <a class="icon-btn" href="mailto:nonlysei@gmail.com" aria-label="Email">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </a>
-      <a class="icon-btn" href="https://t.me/danil_motion" target="_blank" rel="noopener" aria-label="Telegram">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M21.5 3.5L2.8 11c-.9.36-.88 1.66.02 1.98l4.4 1.55 1.7 5.5c.27.86 1.36 1.1 1.97.43l2.4-2.65 4.4 3.27c.8.6 1.94.18 2.16-.8l3.2-14.6c.24-1.1-.83-1.97-1.55-1.68zM8.9 14.1l8.6-7.7c.2-.18.46.1.28.3l-7 7.85-.3 3.6-1.6-4.05z" fill="currentColor"/></svg>
-      </a>
-    </div>
-  </div>
-</footer>
+    // Логика для карточек
+    cards.forEach(card => {
+        const video = card.querySelector('video');
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        // Воспроизведение при наведении (десктоп)
+        card.addEventListener('mouseenter', () => {
+            video.play();
+        });
 
-<script>
-(function(){
-  "use strict";
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ИНИЦИАЛИЗАЦИЯ УМНОГО СЛАЙДЕРА REELS */
-  var reelsSwiper = new Swiper('.reels-swiper', {
-    slidesPerView: 1.15, /* Показывает кусок следующего слайда на мобилках */
-    spaceBetween: 16,
-    grabCursor: true,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    breakpoints: {
-      480: { slidesPerView: 1.8, spaceBetween: 20 },
-      768: { slidesPerView: 2.5, spaceBetween: 24 },
-      1024: { slidesPerView: 3, spaceBetween: 30 } /* 3 красивых вертикальных ряда на ПК */
-    }
-  });
-
-  /* Плеер для прямых ссылок на MP4 (без YouTube) */
-  document.querySelectorAll('.thumb').forEach(function(thumb){
-    function load(){
-      var videoUrl = thumb.getAttribute('data-video');
-      thumb.innerHTML = '<video src="' + videoUrl + '" autoplay controls playsinline></video>';
-      
-      // Скрываем мета-информацию и кнопку плея, чтобы не мешали просмотру
-      var playBtn = thumb.querySelector('.play-btn');
-      var meta = thumb.querySelector('.thumb-meta');
-      if(playBtn) playBtn.style.display = 'none';
-      if(meta) meta.style.display = 'none';
-    }
-    thumb.addEventListener('click', load);
-    thumb.addEventListener('keydown', function(e){
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); load(); }
+        // Открытие на весь экран со звуком при клике
+        card.addEventListener('click', () => {
+            const videoSrc = video.getAttribute('src');
+            modalVideo.src = videoSrc;
+            modal.classList.add('active');
+            
+            // Запускаем видео со звуком
+            modalVideo.muted = false;
+            modalVideo.play();
+        });
     });
-  });
 
-  /* scroll-triggered reveal with stagger */
-  var revealEls = document.querySelectorAll('.reveal');
-  var groups = {};
-  revealEls.forEach(function(el){
-    var parent = el.closest('.grid') || el.closest('.reels-container') || el.parentElement;
-    if(!groups[parent]) groups[parent] = [];
-    groups[parent].push(el);
-  });
-  Object.values(groups).forEach(function(list){
-    list.forEach(function(el, i){
-      el.style.transitionDelay = (i * 110) + 'ms';
+    // Закрытие модального окна
+    function closeModal() {
+        modal.classList.remove('active');
+        modalVideo.pause();
+        modalVideo.src = ""; // Очищаем источник, чтобы видео не пело на фоне
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    
+    // Закрытие при клике на темную область вокруг видео
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
     });
-  });
 
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
-      });
+    // Скролл-ревил анимации
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
     }, { threshold: 0.15 });
-    revealEls.forEach(function(el){ io.observe(el); });
-  } else {
-    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
-  }
+    revealEls.forEach(el => observer.observe(el));
 
-  /* ambient cursor glow */
-  if (!reduceMotion && window.matchMedia('(pointer: fine)').matches) {
-    var glow = document.getElementById('cursor-glow');
-    var tx = 0, ty = 0, x = 0, y = 0;
-    window.addEventListener('mousemove', function(e){ tx = e.clientX; ty = e.clientY; }, { passive: true });
-    function tick(){
-      x += (tx - x) * 0.12;
-      y += (ty - y) * 0.12;
-      glow.style.transform = 'translate(' + (x - 210) + 'px,' + (y - 210) + 'px)';
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-
-  /* gentle hero parallax */
-  if (!reduceMotion) {
-    var heroGlow = document.querySelector('.hero-glow');
-    window.addEventListener('scroll', function(){
-      if (!heroGlow) return;
-      var y = Math.min(window.scrollY, 600) * 0.12;
-      heroGlow.style.transform = 'translateY(' + y + 'px)';
-    }, { passive: true });
-  }
-})();
-</script>
-
+    // Подсветка активного пункта навигации при скролле
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    const sections = Array.from(navLinks).map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= 120 && rect.bottom >= 120) {
+                current = '#' + section.id;
+            }
+        });
+        navLinks.forEach(link => {
+            link.style.color = (link.getAttribute('href') === current && !link.classList.contains('nav-btn')) ? '#1d1d1f' : '';
+        });
+    });
+    </script>
 </body>
 </html>
