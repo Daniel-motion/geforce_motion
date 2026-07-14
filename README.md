@@ -1,2 +1,2 @@
-# danil_motion
+# geforce-motion
 Motion designer website.
